@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Inicio</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden; /* Evita el desplazamiento */
+        }
+
+        .gif-container {
+            position: relative;
+            width: 100%;
+            height: 100vh; /* Hace que el contenedor ocupe toda la altura de la pantalla */
+            overflow: hidden; /* Oculta cualquier desbordamiento */
+            background-color: #000; /* Color de fondo */
+        }
+
+        .gif-container img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100vw; /* Ancho completo de la ventana */
+            height: auto; /* Mantiene la proporción */
+            object-fit: cover; /* Mantiene la relación de aspecto */
+            transform: translate(-50%, -50%); /* Centra la imagen */
+            z-index: 0; /* Asegura que el GIF esté detrás de los botones */
+            opacity: 0.8; /* Ajusta la opacidad del GIF */
+        }
+
+        .buttons {
+            position: absolute; /* Permite que los botones se coloquen sobre el GIF */
+            top: 20px; /* Ajusta la distancia desde la parte superior */
+            right: 20px; /* Ajusta la distancia desde el lado derecho */
+            z-index: 1; /* Asegura que los botones estén encima del GIF */
+        }
+
+        .btn {
+            background-color: #3cd77c;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px; /* Añade espacio entre los botones */
+            font-size: 18px;
+            transition: background-color 0.3s; /* Añade transición suave */
+            display: inline-block; /* Permite margen en todos los lados */
+        }
+
+        .btn:hover {
+            background-color: #34c569; /* Cambio de color al pasar el ratón */
+        }
+
+        /* Estilo para el formulario de login */
+        .login-form {
+            position: absolute;
+            top: 50%; /* Centra el formulario verticalmente */
+            left: 50%; /* Centra el formulario horizontalmente */
+            transform: translate(-50%, -50%); /* Ajusta la posición para centrar */
+            background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semi-transparente */
+            padding: 30px;
+            border-radius: 10px; /* Bordes redondeados */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Sombra */
+            display: none; /* Oculta el formulario por defecto */
+            z-index: 2; /* Asegura que el formulario esté encima del GIF */
+        }
+
+        .login-form h2 {
+            color: #007bff; /* Color del título */
+            margin-bottom: 20px; /* Espacio inferior */
+        }
+
+        .login-form input {
+            display: block;
+            margin: 10px 0; /* Espacio entre campos */
+            padding: 10px;
+            width: 100%; /* Ancho completo */
+            border: 1px solid #ccc; /* Borde */
+            border-radius: 5px; /* Bordes redondeados */
+        }
+
+        .login-form button {
+            background-color: #3cd77c; /* Color de fondo del botón */
+            color: white; /* Color del texto */
+            padding: 10px; /* Espaciado */
+            border: none; /* Sin borde */
+            border-radius: 5px; /* Bordes redondeados */
+            cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+            margin-top: 10px; /* Espacio superior */
+            width: 100%; /* Botón de ancho completo */
+        }
+
+        .login-form button:hover {
+            background-color: #34c569; /* Color de fondo al pasar el ratón */
+        }
+    </style>
+</head>
+<body>
+    <div class="gif-container">
+        
+        <div class="buttons">
+            <a href="{% url 'registro_conductor' %}" class="btn">Registro Conductor</a>
+            <a href="{% url 'registro_apoderado' %}" class="btn">Registro Apoderado</a>
+            <a href="#" class="btn" id="loginButton">Iniciar Sesión</a>
+        </div>
+
+        <!-- Formulario de inicio de sesión -->
+        <div class="login-form" id="loginForm">
+            <h2>Iniciar Sesión</h2>
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Usuario" required>
+                <input type="password" name="password" placeholder="Contraseña" required>
+                <button type="submit">Entrar</button>
+                <button type="button" id="closeButton">Cerrar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Mostrar u ocultar el formulario de inicio de sesión
+        const loginButton = document.getElementById('loginButton');
+        const loginForm = document.getElementById('loginForm');
+        const closeButton = document.getElementById('closeButton');
+
+        loginButton.addEventListener('click', function(event) {
+            event.preventDefault(); // Evita que se siga el enlace
+            loginForm.style.display = 'block'; // Muestra el formulario
+        });
+
+        closeButton.addEventListener('click', function() {
+            loginForm.style.display = 'none'; // Oculta el formulario
+        });
+    </script>
+</body>
+</html>

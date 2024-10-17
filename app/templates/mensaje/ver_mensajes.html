@@ -1,0 +1,19 @@
+<h2>Mis Conversaciones</h2>
+<ul>
+    {% for conversacion in conversaciones %}
+        <li>
+            <a href="{% url 'ver_conversacion' conversacion.id %}">
+                Conversación con 
+                {% if conversacion.participante_1 == request.user %}
+                    {{ conversacion.participante_2.nombre }} {{ conversacion.participante_2.apellido }}
+                {% else %}
+                    {{ conversacion.participante_1.nombre }} {{ conversacion.participante_1.apellido }}
+                {% endif %}
+            </a>
+        </li>
+    {% empty %}
+        <p>No tienes conversaciones.</p>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'enviar_mensaje' %}">Enviar un nuevo mensaje</a>

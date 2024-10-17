@@ -1,0 +1,35 @@
+<!-- templates/mensaje/enviar_mensaje.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Enviar Mensaje</title>
+</head>
+<body>
+    <div class="container mt-4">
+        <h2>Enviar Mensaje</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="destinatario_id">Seleccionar Destinatario</label>
+                <select name="destinatario_id" id="destinatario_id" class="form-control" required>
+                    {% for usuario in usuarios %}
+                        <option value="{{ usuario.id }}">{{ usuario.nombre }} {{ usuario.apellido }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="contenido">Contenido del Mensaje</label>
+                <textarea name="contenido" id="contenido" class="form-control" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+        <a href="{% url 'ver_mensajes' %}" class="btn btn-secondary mt-3">Volver a Mensajes</a>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
