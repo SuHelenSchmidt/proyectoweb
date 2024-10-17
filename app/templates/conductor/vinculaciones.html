@@ -1,0 +1,23 @@
+<h2>Solicitudes Pendientes</h2>
+<ul>
+    {% for solicitud in solicitudes_pendientes %}
+        <li>
+            {{ solicitud.apoderado.user.nombre }} {{ solicitud.apoderado.user.apellido }} - {{ solicitud.estado }}
+            <form method="post" style="display:inline;">
+                {% csrf_token %}
+                <input type="hidden" name="solicitud_id" value="{{ solicitud.id }}">
+                <button type="submit" name="accion" value="aceptar">Aceptar</button>
+                <button type="submit" name="accion" value="rechazar">Rechazar</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>
+
+<h2>Apoderados Aceptados</h2>
+<ul>
+    {% for solicitud in apoderados_aceptados %}
+        <li>
+            {{ solicitud.apoderado.user.nombre }} {{ solicitud.apoderado.user.apellido }} - {{ solicitud.estado }}
+        </li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar Solicitudes</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f2f5; /* Color de fondo suave */
+            padding: 20px;
+        }
+
+        h2 {
+            margin-top: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .request-card {
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 10px; /* Bordes redondeados */
+            background-color: #ffffff;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s, box-shadow 0.2s; /* Efecto al pasar el ratón */
+        }
+
+        .request-card:hover {
+            transform: translateY(-5px); /* Efecto de elevación */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra al pasar el ratón */
+        }
+
+        .request-card span {
+            font-weight: 500;
+            color: #495057; /* Color del texto */
+        }
+
+        .request-card button {
+            margin-left: 10px;
+            transition: background-color 0.2s; /* Efecto de transición */
+        }
+
+        .request-card .btn-success:hover {
+            background-color: #218838; /* Color más oscuro al pasar el ratón */
+        }
+
+        .request-card .btn-danger:hover {
+            background-color: #c82333; /* Color más oscuro al pasar el ratón */
+        }
+
+        .no-data {
+            text-align: center;
+            color: #6c757d;
+            font-size: 18px;
+        }
+
+        .linked-apoderado {
+            color: #28a745; /* Color verde para apoderados vinculados */
+        }
+
+        .card-columns {
+            display: grid; /* Usar grid para un diseño más adaptable */
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Crear columnas adaptativas */
+            gap: 20px; /* Espaciado entre tarjetas */
+        }
+
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 24px; /* Ajustar tamaño de fuente en móviles */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Solicitudes Pendientes</h2>
+    {% if solicitudes_pendientes %}
+        <div class="card-columns">
+            {% for solicitud in solicitudes_pendientes %}
+                <div class="request-card">
+                    <span>{{ solicitud.apoderado }} - Solicitud pendiente</span>
+                    <div>
+                        <form action="{% url 'aceptar_solicitud' solicitud.id %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success">Aceptar</button>
+                        </form>
+                        <form action="{% url 'rechazar_solicitud' solicitud.id %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Rechazar</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="no-data">No tienes solicitudes pendientes.</p>
+    {% endif %}
+
+    <h2>Apoderados Vinculados</h2>
+    {% if apoderados_vinculados %}
+        <div class="card-columns">
+            {% for apoderado in apoderados_vinculados %}
+                <div class="request-card linked-apoderado">
+                    <span>{{ apoderado.apoderado }} - Solicitud aceptada</span>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="no-data">No tienes apoderados vinculados.</p>
+    {% endif %}
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

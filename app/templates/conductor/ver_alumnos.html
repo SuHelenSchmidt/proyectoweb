@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumnos Vinculados</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Fondo degradado */
+        body {
+            background: linear-gradient(135deg, #a1c4fd, #c2e9fb); /* Degradado azul claro */
+            color: #333;
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* Contenedor principal */
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            padding: 20px;
+            margin: 20px auto;
+        }
+
+        /* Título */
+        h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        /* Tarjetas de alumnos */
+        .alumno-card {
+            background-color: #fff;
+            color: #333;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .alumno-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Información del alumno */
+        .alumno-details h5 {
+            margin: 0;
+            font-size: 1.3rem;
+            color: #333;
+        }
+
+        .alumno-details p {
+            margin: 0;
+            color: #666;
+            font-size: 1rem;
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+            .alumno-card {
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .alumno-details p {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .alumno-card {
+                padding: 10px;
+            }
+
+            .alumno-details h5 {
+                font-size: 1.1rem;
+            }
+
+            .alumno-details p {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Título de la página -->
+    <h2>Alumnos Vinculados</h2>
+
+    <!-- Lista de alumnos vinculados -->
+    {% if alumnos_vinculados %}
+        <div class="row">
+            {% for alumno in alumnos_vinculados %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="alumno-card">
+                    <!-- Detalles del alumno -->
+                    <div class="alumno-details">
+                        <h5>{{ alumno.nombre }}</h5>
+                        <p>Edad: {{ alumno.edad }} años</p>
+                        <!-- Puedes agregar más detalles relevantes del alumno aquí -->
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <!-- Mensaje cuando no hay alumnos vinculados -->
+        <p class="text-center">No tienes alumnos vinculados.</p>
+    {% endif %}
+</div>
+
+</body>
+</html>

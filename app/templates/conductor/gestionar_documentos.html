@@ -1,0 +1,158 @@
+<!-- conductor/gestionar_documentos.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestionar Documentos</title>
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body>
+    <h1>Gestionar Documentos Personales y Vehículo</h1>
+    
+    <h2>Documentos Personales</h2>
+    <ul>
+        <li>
+            <strong>Licencia:</strong>
+            {% if documentos_personales.licencia %}
+                <a href="{{ documentos_personales.licencia.url }}" target="_blank">Ver Documento</a>
+                
+                <!-- Botón para eliminar documento -->
+                <form method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="documento_id" value="{{ documentos_personales.id }}">
+                    <button type="submit" name="eliminar_documento_licencia">Eliminar</button>
+                </form>
+            {% else %}
+                No tienes licencia subida.
+            {% endif %}
+        </li>
+        <li>
+            <strong>Certificado:</strong>
+            {% if documentos_personales.certificado %}
+                <a href="{{ documentos_personales.certificado.url }}" target="_blank">Ver Documento</a>
+                
+                <!-- Botón para eliminar documento -->
+                <form method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="documento_id" value="{{ documentos_personales.id }}">
+                    <button type="submit" name="eliminar_documento_certificado">Eliminar</button>
+                </form>
+            {% else %}
+                No tienes certificado subido.
+            {% endif %}
+        </li>
+    </ul>
+
+    <h2>Documentos del Vehículo</h2>
+    <ul>
+        {% if vehiculo %}
+            <li><strong>Marca:</strong> {{ vehiculo.marca }}</li>
+            <li><strong>Modelo:</strong> {{ vehiculo.modelo }}</li>
+            <li><strong>Año:</strong> {{ vehiculo.anio }}</li>
+            <li><strong>Patente:</strong> {{ vehiculo.patente }}</li>
+            {% for documento in documentos_vehiculo %}
+                <li>
+                    <strong>{{ documento.tipo_documento|capfirst }}:</strong>
+                    <a href="{{ documento.archivo.url }}" target="_blank">Ver Documento</a>
+                    
+                    <!-- Botón para eliminar documento -->
+                    <form method="POST" style="display:inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="documento_id" value="{{ documento.id }}">
+                        <button type="submit" name="eliminar_documento_vehiculo">Eliminar</button>
+                    </form>
+                </li>
+            {% endfor %}
+        {% else %}
+            <li>No tienes datos de vehículo registrados.</li>
+        {% endif %}
+    </ul>
+    <a href="{% url 'home_conductor' %}" class="boton-volver">Volver a Home</a>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuadro Central con Efecto</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #233D4D;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 300px;
+      height: 300px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      transition: all 0.4s ease;
+      text-align: center;
+      color: #FCCA46;
+    }
+
+    .container h2 {
+      margin: 0;
+      font-size: 24px;
+      color: #FE7F2D;
+    }
+
+    .container p {
+      font-size: 16px;
+      color: #A1C181;
+    }
+
+    .container .button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #619B8A;
+      border: none;
+      border-radius: 5px;
+      color: #ffffff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .container .button:hover {
+      background-color: #FCCA46;
+      transform: scale(1.1);
+    }
+
+    /* Efecto de crecimiento al hacer clic en el botón */
+    .container.expanded {
+      width: 90%;
+      height: 90%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="cuadro">
+    <h2>Título del Cuadro</h2>
+    <p>Este es un cuadro central con efecto de expansión.</p>
+    <button class="button" onclick="expandirCuadro()">Expandir</button>
+  </div>
+
+  <script>
+    function expandirCuadro() {
+      const cuadro = document.getElementById('cuadro');
+      cuadro.classList.toggle('expanded');
+    }
+  </script>
+</body>
+</html>
