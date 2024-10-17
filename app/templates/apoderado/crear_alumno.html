@@ -1,0 +1,22 @@
+<!-- crear_alumno.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Alumno</title>
+</head>
+<body>
+    <h1>Registrar Alumno</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Registrar Alumno</button>
+    </form>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="agregar_otro" value="True">
+        <button type="submit">Agregar Otro Alumno</button>
+    </form>
+</body>
+</html>

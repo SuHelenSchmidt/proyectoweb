@@ -1,0 +1,8 @@
+<form method="POST">
+    {% csrf_token %}
+    <h2>Selecciona los Alumnos</h2>
+    {% for alumno in alumnos %}
+        <input type="checkbox" name="alumnos_ids" value="{{ alumno.id }}">{{ alumno.nombre }} {{ alumno.apellido }}<br>
+    {% endfor %}
+    <button type="submit">Enviar Solicitud</button>
+</form>

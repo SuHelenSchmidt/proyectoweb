@@ -1,0 +1,21 @@
+<h2>Mensajes Recibidos</h2>
+{% if mensajes_recibidos %}
+    {% for mensaje in mensajes_recibidos %}
+        <p>De: {{ mensaje.remitente.get_full_name }} ({{ mensaje.remitente.rut }})</p>
+        <p>Contenido: {{ mensaje.contenido }}</p>
+        <p>Fecha: {{ mensaje.fecha_enviado }}</p>
+    {% endfor %}
+{% else %}
+    <p>No has recibido mensajes.</p>
+{% endif %}
+
+<h2>Mensajes Enviados</h2>
+{% if mensajes_enviados %}
+    {% for mensaje in mensajes_enviados %}
+        <p>Para: {{ mensaje.destinatario.get_full_name }} ({{ mensaje.destinatario.rut }})</p>
+        <p>Contenido: {{ mensaje.contenido }}</p>
+        <p>Fecha: {{ mensaje.fecha_enviado }}</p>
+    {% endfor %}
+{% else %}
+    <p>No has enviado mensajes.</p>
+{% endif %}
