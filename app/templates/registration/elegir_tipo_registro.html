@@ -1,17 +1,18 @@
+<!-- app/templates/registration/elegir_tipo_registro.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
+    <title>Elige el Tipo de Registro</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             margin: 0;
-            height: 100vh; /* Altura completa de la ventana */
-            overflow: hidden; /* Evitar scroll */
+            height: 100vh;
+            overflow: hidden;
             font-family: Arial, sans-serif;
-            color: #333; /* Color de texto */
+            color: #333;
         }
         .animation-container {
             position: absolute;
@@ -22,32 +23,36 @@
             z-index: 1;
         }
         .container {
-            position: relative; /* Para posicionar el contenido */
-            z-index: 2; /* Mantener por encima de la animación */
-            max-width: 400px; /* Ancho máximo del contenedor */
-            margin: auto; /* Centrar el contenedor horizontalmente */
-            margin-top: 10%; /* Margen superior para centrar verticalmente */
+            position: relative;
+            z-index: 2;
+            max-width: 400px;
+            margin: auto;
+            margin-top: 10%;
             padding: 30px;
-            background-color: rgba(255, 255, 255, 0.5); /* Fondo transparente */
-            border-radius: 10px; /* Bordes redondeados */
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
-        h1 {
+        h2 {
             text-align: center;
             color: #007bff;
             margin-bottom: 20px;
         }
         .btn {
-            font-weight: bold; /* Letras negritas */
-            color: black; /* Color de las letras en botones */
-            background-color: rgba(255, 255, 255, 0.7); /* Fondo transparente para botones */
-            border: none; /* Sin borde */
-            transition: background-color 0.3s; /* Transición para hover */
-            width: 100%; /* Ancho completo */
-            margin-bottom: 10px; /* Espaciado entre botones */
+            font-weight: bold;
+            color: black;
+            background-color: rgba(255, 255, 255, 0.7);
+            border: none;
+            transition: background-color 0.3s;
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
         }
         .btn:hover {
-            background-color: rgba(255, 255, 255, 1); /* Fondo sólido al pasar el mouse */
+            background-color: rgba(255, 255, 255, 1);
+        }
+        .form-group {
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -57,11 +62,19 @@
     </div>
 
     <div class="container">
-        <h1>Bienvenido a la plataforma</h1>
-        <!-- Botón de iniciar sesión -->
-        <a href="{% url 'login' %}" class="btn btn-primary">Iniciar Sesión</a>
-        <!-- Botón de registrarse que redirige a elegir el tipo de registro -->
-        <a href="{% url 'elegir_tipo_registro' %}" class="btn btn-secondary">Regístrate</a>
+        <h2>¿Cómo deseas registrarte?</h2>
+        <div class="form-group">
+            <!-- Enlace para registro de conductor -->
+            <a href="{% url 'registro_conductor' %}" class="btn btn-primary">Como Conductor</a>
+        </div>
+        <div class="form-group">
+            <!-- Enlace para registro de apoderado -->
+            <a href="{% url 'registro_apoderado' %}" class="btn btn-primary">Como Apoderado</a>
+        </div>
+        <div class="form-group">
+            <!-- Enlace para volver al home -->
+            <a href="{% url 'home' %}" class="btn btn-secondary">Volver al Home</a>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.6/lottie.min.js"></script>

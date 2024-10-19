@@ -43,6 +43,10 @@ def home(request):
             return redirect('home_apoderado')
     return render(request, 'app/home.html') 
 
+
+# Nueva vista para elegir entre conductor o apoderado
+def elegir_tipo_registro(request):
+    return render(request, 'registration/elegir_tipo_registro.html')
 # Vista de registro para conductores
 def registro_conductor(request):
     if request.method == 'POST':

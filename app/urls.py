@@ -56,6 +56,7 @@ urlpatterns = [
     path('mensaje/<int:conversacion_id>/', views.ver_conversacion, name='ver_conversacion'),
     path('mensaje/enviar/<int:conversacion_id>/', views.enviar_mensaje, name='enviar_mensaje'),
     path('mensaje/cargar_conversacion/<int:conversacion_id>/', views.cargar_conversacion, name='cargar_conversacion'),
+    path('elegir-tipo-registro/', views.elegir_tipo_registro, name='elegir_tipo_registro'),
 
     # Rutas del apoderado
 
