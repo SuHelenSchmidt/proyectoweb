@@ -65,6 +65,8 @@ class Conductor(models.Model):
     licencia = models.FileField(upload_to='licencias/', blank=True, null=True)
     certificado = models.FileField(upload_to='certificados/', blank=True, null=True)
     apoderados = models.ManyToManyField('Apoderado', related_name='conductor_apoderados')  # Cambiado el related_name
+    documentos_personales_subidos = models.BooleanField(default=False)
+    datos_vehiculo_subidos = models.BooleanField(default=False)
     def __str__(self):
         return f"{self.user.rut} - Conductor"
 

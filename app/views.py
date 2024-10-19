@@ -74,22 +74,25 @@ def registro_apoderado(request):
 
 
 class CustomLoginView(LoginView):
-    template_name = 'registration/login.html' 
+    template_name = 'registration/login.html'
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
         response = super().form_valid(form)
         if hasattr(self.request.user, 'conductor'):
-            return HttpResponseRedirect(reverse('home_conductor'))
-        elif hasattr(self.request.user, 'apoderado'):
-            # Verificar si el apoderado tiene una solicitud aceptada
-            apoderado = self.request.user.apoderado
-            solicitud_aceptada = SolicitudVinculacion.objects.filter(apoderado=apoderado, estado='aceptada').exists()
-            if solicitud_aceptada:
-                return HttpResponseRedirect(reverse('home_apoderado'))
+            conductor = self.request.user.conductor
+             # Verificar si no ha subido documentos personales
+
+            if not conductor.documentospersonales_set.exists():
+                return HttpResponseRedirect(reverse('subir_documentos'))
+            elif not hasattr(conductor, 'vehiculo'):
+                return HttpResponseRedirect(reverse('subir_datos_vehiculo'))
             else:
-                return HttpResponseRedirect(reverse('estado_solicitudes'))
+                return HttpResponseRedirect(reverse('home_conductor'))
+        elif hasattr(self.request.user, 'apoderado'):
+            return HttpResponseRedirect(reverse('home_apoderado'))
         return response
+
 
 @login_required
 @login_required
@@ -261,31 +264,37 @@ def gestion_alumnos(request):
     return render(request, 'apoderado/gestion_alumnos.html', {'alumnos': alumnos})
 
 def subir_documentos(request):
+    conductor = request.user.conductor  # Obtener el conductor autenticado
+    if conductor.documentospersonales_set.exists():  # Verificar si ya subió documentos
+        return redirect('subir_datos_vehiculo')  # Si ya subió documentos, redirigir a subir datos del vehículo
+
     if request.method == 'POST':
         form = ConductorDocumentosForm(request.POST, request.FILES)
         if form.is_valid():
-            conductor = request.user.conductor  # Asigna el conductor autenticado
             documentos = form.save(commit=False)
-            documentos.conductor = conductor  # Asocia los documentos con el conductor
+            documentos.conductor = conductor  # Asociar los documentos con el conductor
             documentos.save()
-            return redirect('subir_datos_vehiculo')  # Redirige a la página para subir datos del vehículo
+            return redirect('subir_datos_vehiculo')  # Redirigir a la página para subir datos del vehículo
     else:
         form = ConductorDocumentosForm()
     return render(request, 'conductor/subir_documentos.html', {'form': form})
 
 
 def subir_datos_vehiculo(request):
+    conductor = request.user.conductor  # Obtener el conductor autenticado
+    if hasattr(conductor, 'vehiculo'):  # Verificar si ya ha registrado el vehículo
+        return redirect('home_conductor')  # Si ya se registró el vehículo, redirigir al home
+
     if request.method == 'POST':
-        form = DatosVehiculoForm(request.POST, request.FILES)  # Usa DatosVehiculoForm aquí
+        form = DatosVehiculoForm(request.POST, request.FILES)
         if form.is_valid():
             vehiculo = form.save(commit=False)
-            vehiculo.conductor = request.user.conductor
+            vehiculo.conductor = conductor
             vehiculo.save()
-            return redirect('home_conductor')
+            return redirect('home_conductor')  # Redirigir al home si todo está completo
     else:
-        form = DatosVehiculoForm()  # Usa DatosVehiculoForm aquí también
+        form = DatosVehiculoForm()
     return render(request, 'conductor/subir_datos_vehiculo.html', {'form': form})
-
 
 
 def gestionar_documentos(request):
@@ -456,3 +465,13 @@ def cargar_conversacion(request, conversacion_id):
     # Convertir los mensajes a JSON
     data = serializers.serialize('json', mensajes, fields=('remitente', 'contenido', 'fecha_enviado'))
     return JsonResponse({'mensajes': data})
+
+
+
+@login_required
+def datos_personales(request):
+    apoderado = Apoderado.objects.get(user=request.user)  # Obtener el apoderado que está logueado
+    context = {
+        'apoderado': apoderado
+    }
+    return render(request, 'apoderado/datos_personales.html', context)

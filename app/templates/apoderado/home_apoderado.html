@@ -69,7 +69,7 @@
     </div>
 
     <div class="container mt-4">
-        <div class="welcome-text">Bienvenido, Apoderado<td>{{ apoderado.rut }}</td>
+        <div class="welcome-text">Bienvenido, Apoderado<td>{{ apoderado.nombre }}</td>
             <td>{{ apoderado.apellido }}</td></div>
 
         {% if alumno_seleccionado %}
@@ -86,6 +86,8 @@
         {% endif %}
 
         <div class="button-container">
+            <a href="{% url 'datos_personales' %}" class="btn btn-info">Mis Datos Personales</a>
+
             <button onclick="location.href='{% url 'gestion_alumnos' %}'" class="btn btn-custom">Gestionar Alumnos</button>
             <button onclick="location.href='{% url 'listar_conductores' %}'" class="btn btn-custom">Listar Conductores</button>
         </div>
@@ -118,6 +120,7 @@
             <button type="submit" class="btn btn-outline-light btn-block">Cerrar sesión</button>
         </form>
     </div>
+    
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

@@ -4,53 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
             margin: 0;
-            height: 100vh; /* Altura completa de la ventana */
-            overflow: hidden; /* Evitar scroll */
-            font-family: Arial, sans-serif;
-            color: #333; /* Color de texto */
         }
-        .animation-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-        .container {
-            position: relative; /* Para posicionar el contenido */
-            z-index: 2; /* Mantener por encima de la animación */
-            max-width: 400px; /* Ancho máximo del contenedor */
-            margin: auto; /* Centrar el contenedor horizontalmente */
-            margin-top: 10%; /* Margen superior para centrar verticalmente */
+        .card {
             padding: 30px;
-            background-color: rgba(255, 255, 255, 0.5); /* Fondo transparente */
-            border-radius: 10px; /* Bordes redondeados */
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            background-color: white;
+            width: 100%;
+            max-width: 400px;
         }
         h2 {
-            text-align: center; /* Centrar el título */
             color: #007bff;
             margin-bottom: 20px;
         }
         .form-group label {
             font-weight: bold;
         }
-        .btn {
-            font-weight: bold; /* Letras negritas */
-            color: black; /* Color de las letras en botones */
-            background-color: rgba(255, 255, 255, 0.7); /* Fondo transparente para botones */
-            border: none; /* Sin borde */
-            transition: background-color 0.3s; /* Transición para hover */
-            width: 100%; /* Ancho completo */
-            margin-bottom: 10px; /* Espaciado entre botones */
-        }
-        .btn:hover {
-            background-color: rgba(255, 255, 255, 1); /* Fondo sólido al pasar el mouse */
+        .btn-primary {
+            width: 100%;
         }
         .text-center {
             margin-top: 15px;
@@ -58,12 +38,8 @@
     </style>
 </head>
 <body>
-    <div class="animation-container">
-        <div id="animationContainer" style="width: 100%; height: 100%;"></div>
-    </div>
-
-    <div class="container">
-        <h2>Iniciar Sesión</h2>
+    <div class="card">
+        <h2 class="text-center">Iniciar Sesión</h2>
         <form method="POST">
             {% csrf_token %}
             <div class="form-group">
@@ -72,21 +48,9 @@
             <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
         </form>
         <div class="text-center">
-            <p>No tienes cuenta? <a href="{% url 'registro_apoderado' %}">Regístrate aquí</a></p>
+            <p>No tienes cuenta? <a href="{% url 'registro_apoderado' %}">Regístrate aquí</a> o <a href="{% url 'registro_conductor' %}">Regístrate como conductor</a>.</p>
         </div>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.6/lottie.min.js"></script>
-    <script>
-        // Cargar la animación
-        var animation = lottie.loadAnimation({
-            container: document.getElementById('animationContainer'),
-            renderer: 'svg',
-            loop: true,
-            autoplay: true,
-            path: '/static/animations/LoginBus.json'  // Ruta de tu animación JSON
-        });
-    </script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
