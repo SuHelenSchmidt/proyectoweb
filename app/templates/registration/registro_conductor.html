@@ -3,146 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Conductor</title>
+    <title>Transporte Escolar - Registro de Conductor</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            margin: 0; /* Eliminar márgenes */
-            height: 100vh; /* Altura completa de la ventana */
-            overflow: hidden; /* Evitar scroll */
-            font-family: Arial, sans-serif;
-            color: #333; /* Color de texto */
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, #ffcc00, #ff5252, #007bff, #00d4ff);
+            background-size: 400% 400%;
+            animation: gradientBackground 15s ease infinite;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            color: #fff;
+            overflow: hidden;
         }
-        .animation-container {
-            position: absolute; /* Hacer que ocupe toda la pantalla */
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1; /* Mantener detrás del formulario */
+
+        @keyframes gradientBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
+
         .container {
-            position: relative; /* Para posicionar el formulario */
-            z-index: 1; /* Mantener por encima de la animación */
-            max-width: 350px; /* Ancho máximo del formulario */
-            margin: auto; /* Centrar el formulario */
-            margin-top: 20px; /* Espacio superior */
-            padding: 15px;
-            background-color: rgba(255, 255, 255, 0.5); /* Fondo más transparente */
-            border-radius: 10px; /* Bordes redondeados */
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+            width: 80%;
+            height: 80%;
+            display: flex;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
         }
-        h2 {
+
+        .info-section {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             text-align: center;
-            color: #007bff;
+        }
+
+        .info-section h1 {
+            font-size: 2.5em;
             margin-bottom: 20px;
+            color: #ffcc00;
         }
-        .btn {
-            font-weight: bold; /* Letras negritas */
-            color: black; /* Color de las letras en botones */
-            background-color: rgba(255, 255, 255, 0.7); /* Fondo transparente para botones */
-            border: none; /* Sin borde */
-            transition: background-color 0.3s; /* Transición para hover */
+
+        .info-section p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.85);
         }
-        .btn:hover {
-            background-color: rgba(255, 255, 255, 1); /* Fondo sólido al pasar el mouse */
+
+        .form-section {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
-        .form-group {
-            margin-bottom: 20px; /* Espacio entre campos del formulario */
+
+        .form-section form {
+            width: 80%;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
-        .form-control {
-            border-radius: 5px; /* Bordes redondeados para los campos */
-            border: 2px solid black; /* Bordes negros y anchos */
-            padding: 10px; /* Espaciado interno */
-            text-align: center; /* Centrar texto dentro del campo */
-            font-size: 16px; /* Tamaño de letra */
+
+        .form-section input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            font-size: 1.1em;
         }
-        .form-control::placeholder {
-            color: black; /* Color del texto del placeholder */
-            opacity: 0.7; /* Opacidad del texto del placeholder */
-            text-align: center; /* Centrar el texto del placeholder */
+
+        .form-section .btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            background-color: #ffcc00;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s;
+            margin-bottom: 10px;
         }
-        .alert {
-            margin-top: 10px; /* Espacio entre el campo y el mensaje de error */
+
+        .form-section .btn:hover {
+            background-color: #ffc107;
+            transform: scale(1.05);
+        }
+
+        footer {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85em;
+            letter-spacing: 1px;
         }
     </style>
 </head>
 <body>
-    <div class="animation-container">
-        <div id="animationContainer" style="width: 100%; height: 100%;"></div>
-    </div>
-
     <div class="container">
-        <h2>Registro de Conductor</h2>
-        <form method="POST">
-            {% csrf_token %}
-            <div class="form-group">
+        <!-- Sección de información -->
+        <div class="info-section">
+            <h1>Registro de Conductor</h1>
+            <p>Regístrate como conductor y únete a nuestro equipo para brindar un transporte seguro y confiable a los estudiantes.</p>
+        </div>
+
+        <!-- Sección del formulario -->
+        <div class="form-section">
+            <h2>Formulario de Registro</h2>
+            <form method="POST">
+                {% csrf_token %}
                 <input type="text" name="nombre" placeholder="Nombre" class="form-control" required>
                 {% if form.nombre.errors %}
-                    <div class="alert alert-danger">
-                        {{ form.nombre.errors }}
-                    </div>
+                    <div class="alert alert-danger">{{ form.nombre.errors }}</div>
                 {% endif %}
-            </div>
-            <div class="form-group">
                 <input type="text" name="apellido" placeholder="Apellido" class="form-control" required>
                 {% if form.apellido.errors %}
-                    <div class="alert alert-danger">
-                        {{ form.apellido.errors }}
-                    </div>
+                    <div class="alert alert-danger">{{ form.apellido.errors }}</div>
                 {% endif %}
-            </div>
-            <div class="form-group">
                 <input type="text" name="rut" placeholder="RUT" class="form-control" required>
                 {% if form.rut.errors %}
-                    <div class="alert alert-danger">
-                        {{ form.rut.errors }}
-                    </div>
+                    <div class="alert alert-danger">{{ form.rut.errors }}</div>
                 {% endif %}
-            </div>
-            <div class="form-group">
                 <input type="email" name="email" placeholder="Email" class="form-control" required>
                 {% if form.email.errors %}
-                    <div class="alert alert-danger">
-                        {{ form.email.errors }}
-                    </div>
+                    <div class="alert alert-danger">{{ form.email.errors }}</div>
                 {% endif %}
-            </div>
-            <div class="form-group">
                 <input type="password" name="password1" placeholder="Contraseña" class="form-control" required>
                 {% if form.password1.errors %}
-                    <div class="alert alert-danger">
-                        {{ form.password1.errors }}
-                    </div>
+                    <div class="alert alert-danger">{{ form.password1.errors }}</div>
                 {% endif %}
-            </div>
-            <div class="form-group">
                 <input type="password" name="password2" placeholder="Confirmar Contraseña" class="form-control" required>
                 {% if form.password2.errors %}
-                    <div class="alert alert-danger">
-                        {{ form.password2.errors }}
-                    </div>
+                    <div class="alert alert-danger">{{ form.password2.errors }}</div>
                 {% endif %}
-            </div>
-            <button type="submit" class="btn btn-primary">Registrar</button>
-            <a href="{% url 'home' %}" class="btn btn-secondary">Volver al Home</a>
-        </form>
+                <button type="submit" class="btn">Registrar</button>
+            </form>
+        </div>
     </div>
+
+    <footer>&copy; 2024 Transporte Escolar - Todos los derechos reservados</footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.6/lottie.min.js"></script>
     <script>
-        // Cargar la animación
         var animation = lottie.loadAnimation({
-            container: document.getElementById('animationContainer'),
+            container: document.getElementById('iconAnimation'),
             renderer: 'svg',
             loop: true,
             autoplay: true,
-            path: '/static/animations/LoginBus.json'  // Ruta de tu animación JSON
+            path: '/static/animations/LoginBus.json'
         });
     </script>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -3,81 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
+    <title>Transporte Escolar - Bienvenidos</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
+        * {
             margin: 0;
-            height: 100vh; /* Altura completa de la ventana */
-            overflow: hidden; /* Evitar scroll */
-            font-family: Arial, sans-serif;
-            color: #333; /* Color de texto */
+            padding: 0;
+            box-sizing: border-box;
         }
-        .animation-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, #ffcc00, #ff5252, #007bff, #00d4ff);
+            background-size: 400% 400%;
+            animation: gradientBackground 15s ease infinite;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            color: #fff;
+            overflow: hidden;
         }
+
+        @keyframes gradientBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .container {
-            position: relative; /* Para posicionar el contenido */
-            z-index: 2; /* Mantener por encima de la animación */
-            max-width: 400px; /* Ancho máximo del contenedor */
-            margin: auto; /* Centrar el contenedor horizontalmente */
-            margin-top: 10%; /* Margen superior para centrar verticalmente */
+            width: 80%;
+            height: 80%;
+            display: flex;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
             padding: 30px;
-            background-color: rgba(255, 255, 255, 0.5); /* Fondo transparente */
-            border-radius: 10px; /* Bordes redondeados */
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+            border-radius: 25px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
         }
-        h1 {
+
+        .info-section {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             text-align: center;
-            color: #007bff;
+        }
+
+        .info-section h1 {
+            font-size: 2.5em;
             margin-bottom: 20px;
+            color: #ffcc00;
         }
-        .btn {
-            font-weight: bold; /* Letras negritas */
-            color: black; /* Color de las letras en botones */
-            background-color: rgba(255, 255, 255, 0.7); /* Fondo transparente para botones */
-            border: none; /* Sin borde */
-            transition: background-color 0.3s; /* Transición para hover */
-            width: 100%; /* Ancho completo */
-            margin-bottom: 10px; /* Espaciado entre botones */
+
+        .info-section p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.85);
         }
-        .btn:hover {
-            background-color: rgba(255, 255, 255, 1); /* Fondo sólido al pasar el mouse */
+
+        .form-section {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-section form {
+            width: 80%;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-section input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            font-size: 1.1em;
+        }
+
+        .form-section .btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            background-color: #ffcc00;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s;
+            margin-bottom: 10px;
+        }
+
+        .form-section .btn:hover {
+            background-color: #ffc107;
+            transform: scale(1.05);
+        }
+
+        .register-btn {
+            background-color: #007bff;
+        }
+
+        .register-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .register-text {
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.85);
+            margin-top: 10px;
+        }
+
+        .icon {
+            margin-top: 20px; /* Ajusta este margen según lo necesites */
+            display: flex;
+            justify-content: center;
+        }
+
+        #iconAnimation {
+            width: 120px;
+            height: 120px;
+            margin-top: 20px;
+            /* Elimina la animación de giro */
+        }
+
+        footer {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85em;
+            letter-spacing: 1px;
         }
     </style>
 </head>
 <body>
-    <div class="animation-container">
-        <div id="animationContainer" style="width: 100%; height: 100%;"></div>
-    </div>
-
     <div class="container">
-        <h1> .</h1>
-        <!-- Botón de iniciar sesión -->
-        <a href="{% url 'login' %}" class="btn btn-primary">Iniciar Sesión</a>
-        <!-- Botón de registrarse que redirige a elegir el tipo de registro -->
-        <a href="{% url 'elegir_tipo_registro' %}" class="btn btn-secondary">Regístrate</a>
+        <!-- Sección de información o icono -->
+        <div class="info-section">
+            <h1>Transporte Seguro</h1>
+            <p>Ofrecemos un servicio de transporte escolar con conductores certificados y vehículos inspeccionados, asegurando la seguridad de tus hijos. Con nuestro seguimiento en tiempo real, siempre sabrás dónde están.</p>
+            <div class="icon">
+                <div id="iconAnimation"></div>
+            </div>
+        </div>
+
+        <!-- Sección del formulario -->
+        <div class="form-section">
+            <h2>Iniciar Sesión</h2>
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Usuario" required>
+                <input type="password" name="password" placeholder="Contraseña" required>
+                <button type="submit" class="btn">Entrar</button>
+                <p class="register-text">¿No tienes cuenta? <a href="{% url 'elegir_tipo_registro' %}" style="color: #ffcc00;">Regístrate aquí</a></p>
+            </form>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.6/lottie.min.js"></script>
     <script>
-        // Cargar la animación
+        // Cargar animación JSON
         var animation = lottie.loadAnimation({
-            container: document.getElementById('animationContainer'),
+            container: document.getElementById('iconAnimation'),
             renderer: 'svg',
             loop: true,
             autoplay: true,
-            path: '/static/animations/Animation - 1729218795639.json'  // Ruta de tu animación JSON
+            path: '/static/animations/Animation - 1729218529463.json' // Ruta a tu archivo JSON
         });
     </script>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <footer>&copy; 2024 Transporte Escolar - Todos los derechos reservados</footer>
 </body>
 </html>

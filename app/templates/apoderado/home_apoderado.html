@@ -49,7 +49,6 @@
         <h2 class="title">Mis Hijos</h2>
         
         <div class="slider">
-            
             <form method="POST" action="{% url 'home_apoderado' %}" id="alumno-form" class="alumno-form mb-4">
                 {% csrf_token %}
                 <select name="alumno_id" class="form-control" onchange="submitForm()">
@@ -64,13 +63,11 @@
                     {% endfor %}
                 </select>
             </form>
-
         </div>
     </div>
 
     <div class="container mt-4">
-        <div class="welcome-text">Bienvenido, Apoderado<td>{{ apoderado.nombre }}</td>
-            <td>{{ apoderado.apellido }}</td></div>
+        <div class="welcome-text">Bienvenido, Apoderado: {{ apoderado.rut }} {{ apoderado.apellido }}</div>
 
         {% if alumno_seleccionado %}
             <div class="alumno-detalles">
@@ -84,16 +81,6 @@
                 {% endif %}
             </div>
         {% endif %}
-
-        <div class="button-container">
-            <a href="{% url 'datos_personales' %}" class="btn btn-info">Mis Datos Personales</a>
-
-            <button onclick="location.href='{% url 'gestion_alumnos' %}'" class="btn btn-custom">Gestionar Alumnos</button>
-            <button onclick="location.href='{% url 'listar_conductores' %}'" class="btn btn-custom">Listar Conductores</button>
-        </div>
-<!-- home_apoderado.html y home_conductor.html -->
-<a href="{% url 'ver_mensajes' %}">Ver Mensajes</a>
-<a href="{% url 'enviar_mensaje' %}">Enviar Mensaje</a>
 
         <div class="mt-4">
             {% for conductor in conductores_vinculados %}
@@ -114,16 +101,42 @@
         
     </div>
 
-    <div id="logout-btn" class="text-center mt-4">
-        <form action="{% url 'logout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-outline-light btn-block">Cerrar sesión</button>
-        </form>
-    </div>
-    
+    <!-- Menú de Navegación -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mt-4">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'datos_personales' %}">Mis Datos Personales</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'gestion_alumnos' %}">Gestionar Alumnos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listar_conductores' %}">Listar Conductores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'ver_mensajes' %}">Ver Mensajes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'enviar_mensaje' %}">Enviar Mensaje</a>
+                    </li>
+                    <li class="nav-item">
+                        <form action="{% url 'logout' %}" method="post" class="nav-item">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger">Cerrar sesión</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
-</html> 
+</html>

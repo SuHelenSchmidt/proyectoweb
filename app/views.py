@@ -118,11 +118,14 @@ def home_apoderado(request):
         'alumnos': alumnos,
         'alumno_seleccionado': alumno_seleccionado,
         'solicitud': solicitud,
+        'nombre_apoderado': request.user.nombre,  # Añadir el nombre del apoderado
+        'apellido_apoderado': request.user.apellido,
     }
     return render(request, 'apoderado/home_apoderado.html', context)
 
 @login_required
 def home_conductor(request):
+    
     conductor = Conductor.objects.get(user=request.user)
     apoderados = conductor.apoderados.all()
     return render(request, 'conductor/home_conductor.html', {
