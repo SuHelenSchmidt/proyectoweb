@@ -5,85 +5,150 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seleccionar Alumnos</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
-        body {
+        * {
             margin: 0;
-            height: 100vh; /* Altura completa de la ventana */
-            overflow: hidden; /* Evitar scroll */
-            font-family: Arial, sans-serif;
-            color: #333; /* Color de texto */
+            padding: 0;
+            box-sizing: border-box;
         }
-        .animation-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            overflow: hidden;
         }
+
         .container {
-            position: relative;
-            z-index: 2; /* Mantener por encima de la animación */
-            max-width: 600px; /* Ajustar el ancho máximo */
-            margin: auto;
-            margin-top: 10%; /* Centrar verticalmente */
+            width: 80%;
+            height: auto;
+            display: flex;
+            justify-content: space-between;
+            background: #ffffff;
             padding: 30px;
-            background-color: rgba(255, 255, 255, 0.5); /* Fondo transparente */
-            border-radius: 10px; /* Bordes redondeados */
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Sombra pronunciada */
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
-        h2 {
+
+        .info-section {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             text-align: center;
+        }
+
+        .info-section h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
             color: #007bff;
-            margin-bottom: 20px;
         }
-        .form-group {
-            margin-bottom: 20px;
-            text-align: center;
+
+        .info-section p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #666;
         }
+
+        .icon {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        #animationContainer {
+            width: 120px;
+            height: 120px;
+        }
+
+        .form-section {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-section form {
+            width: 80%;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
         .checkbox-option {
             display: flex;
             justify-content: space-between;
-            padding: 10px;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            background-color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 10px;
-            border: 2px solid black; /* Bordes negros y anchos */
+            background: rgba(255, 255, 255, 0.7);
+            color: #333;
         }
+
         .btn {
-            font-weight: bold; /* Letras en negrita */
-            color: black; /* Color de las letras en botones */
-            background-color: rgba(255, 255, 255, 0.7); /* Fondo transparente para botones */
-            border: none; /* Sin borde */
-            width: 100%; /* Botón ocupa todo el ancho */
-            transition: background-color 0.3s;
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffcc00;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s;
         }
+
         .btn:hover {
-            background-color: rgba(255, 255, 255, 1); /* Fondo sólido al pasar el mouse */
+            background-color: #ffc107;
+            transform: scale(1.05);
+        }
+
+        footer {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            color: rgba(0, 0, 0, 0.6);
+            font-size: 0.85em;
+            letter-spacing: 1px;
         }
     </style>
 </head>
 <body>
-    <div class="animation-container">
-        <div id="animationContainer" style="width: 100%; height: 100%;"></div>
-    </div>
-
     <div class="container">
-        <h2>Selecciona los Alumnos</h2>
-        <form method="POST">
-            {% csrf_token %}
-            <div class="form-group">
-                {% for alumno in alumnos %}
-                    <div class="checkbox-option">
-                        <label>
-                            <input type="checkbox" name="alumnos_ids" value="{{ alumno.id }}">
-                            <span>{{ alumno.nombre }} {{ alumno.apellido }}</span>
-                        </label>
-                    </div>
-                {% endfor %}
+        <div class="info-section">
+            <h1>Selecciona al alumno</h1>
+            <div class="icon">
+                <div id="animationContainer"></div>
             </div>
-            <button type="submit" class="btn btn-primary">Enviar Solicitud</button>
-        </form>
+        </div>
+
+        <div class="form-section">
+            <h2>Selecciona los Alumnos</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    {% for alumno in alumnos %}
+                        <div class="checkbox-option">
+                            <label>
+                                <input type="checkbox" name="alumnos_ids" value="{{ alumno.id }}">
+                                <span>{{ alumno.nombre }} {{ alumno.apellido }}</span>
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn">Enviar Solicitud</button>
+            </form>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.6/lottie.min.js"></script>
@@ -94,12 +159,10 @@
             renderer: 'svg',
             loop: true,
             autoplay: true,
-            path: '/static/animations/LoginBus.json'  // Ruta de tu animación JSON
+            path: '/static/animations/.json'
         });
     </script>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <footer>&copy; 2024 Transporte Escolar - Todos los derechos reservados</footer>
 </body>
 </html>

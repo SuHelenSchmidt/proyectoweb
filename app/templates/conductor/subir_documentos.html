@@ -5,118 +5,127 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Subir Documentos Personales</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"> <!-- Íconos -->
     <style>
         body {
-            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
             height: 100vh;
-            overflow: hidden;
-            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: #333;
+            margin: 0;
+            overflow: hidden;
         }
-        .animation-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
+
         .container {
-            position: relative;
-            z-index: 2;
-            max-width: 600px;
-            margin: auto;
-            margin-top: 10%;
-            padding: 30px;
-            background-color: rgba(255, 255, 255, 0.5);
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        }
-        h2 {
+            width: 60%;
+            max-width: 500px;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             text-align: center;
-            color: #007bff;
-            margin-bottom: 20px;
         }
+
+        h2 {
+            color: #007bff;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
         .form-group {
             margin-bottom: 20px;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            border: 2px solid black;
-            padding: 10px;
-            border-radius: 5px;
-            background-color: rgba(255, 255, 255, 0.7);
         }
-        .form-group input {
-            flex-grow: 1;
-        }
-        .status-icon {
-            margin-left: 10px;
-            display: none; /* Oculto por defecto */
-        }
-        .status-icon.success {
-            color: green;
-            display: inline-block; /* Mostrar cuando sea aprobado */
-        }
-        .btn {
-            font-weight: bold;
-            color: black;
-            background-color: rgba(255, 255, 255, 0.7);
-            border: none;
+
+        .custom-file-btn {
             width: 100%;
+            background-color: transparent;
+            border: 2px solid #000;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #000;
+            font-size: 16px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+
+        .custom-file-btn:hover {
+            background-color: #eaeaea;
+        }
+
+        .btn {
+            width: 100%;
+            background-color: #ffcc00;
+            color: white;
+            border: none;
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 5px;
             transition: background-color 0.3s;
         }
+
         .btn:hover {
-            background-color: rgba(255, 255, 255, 1);
+            background-color: #ffc107;
+        }
+
+        .status-icon {
+            margin-left: 10px;
+            color: green;
+            display: none;
+        }
+
+        .status-icon.success {
+            display: inline-block;
+        }
+
+        input[type="file"] {
+            display: none; /* Ocultar el input de archivo */
         }
     </style>
 </head>
 <body>
-    <div class="animation-container">
-        <div id="animationContainer" style="width: 100%; height: 100%;"></div>
-    </div>
-
     <div class="container">
-        <h2>¡{{ conductor.nombre }}, sube tus documentos!</h2> <!-- Mensaje personalizado con el nombre -->
+        <h2>sube tus documentos</h2>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            
             <div class="form-group">
-                <label for="id_licencia">Licencia:</label>
-                <input type="file" id="id_licencia" name="licencia" accept=".pdf,.jpg,.png" onchange="showStatus('licencia')">
-                <span class="status-icon" id="licencia-status">✔</span> <!-- Icono de éxito -->
+                <label class="custom-file-btn" for="id_licencia" id="licencia-label">LICENCIA</label>
+                <input type="file" id="id_licencia" name="licencia" accept=".pdf,.jpg,.png" onchange="updateLabel('licencia')">
+                <span class="status-icon" id="licencia-status">✔</span>
             </div>
 
             <div class="form-group">
-                <label for="id_certificado">Certificado:</label>
-                <input type="file" id="id_certificado" name="certificado" accept=".pdf,.jpg,.png" onchange="showStatus('certificado')">
-                <span class="status-icon" id="certificado-status">✔</span> <!-- Icono de éxito -->
+                <label class="custom-file-btn" for="id_certificado" id="certificado-label">CERTIFICADO</label>
+                <input type="file" id="id_certificado" name="certificado" accept=".pdf,.jpg,.png" onchange="updateLabel('certificado')">
+                <span class="status-icon" id="certificado-status">✔</span>
             </div>
 
-            <button type="submit" class="btn btn-primary">Subir Documentos</button>
+            <button type="submit" class="btn">Subir Documentos</button>
         </form>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.6/lottie.min.js"></script>
     <script>
-        // Cargar la animación
-        var animation = lottie.loadAnimation({
-            container: document.getElementById('animationContainer'),
-            renderer: 'svg',
-            loop: true,
-            autoplay: true,
-            path: '/static/animations/LoginBus.json' // Ruta de tu animación JSON
-        });
-
-        // Mostrar el icono de aprobado cuando se sube un archivo
-        function showStatus(field) {
+        // Actualizar la etiqueta y mostrar el icono de éxito al seleccionar un archivo
+        function updateLabel(field) {
+            const inputFile = document.getElementById(`id_${field}`);
+            const label = document.getElementById(`${field}-label`);
             const statusIcon = document.getElementById(`${field}-status`);
-            statusIcon.classList.add('success');
+
+            if (inputFile.files.length > 0) {
+                // Actualizar el texto del botón con el nombre del archivo seleccionado
+                label.textContent = inputFile.files[0].name;
+                statusIcon.classList.add('success');
+            }
         }
     </script>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

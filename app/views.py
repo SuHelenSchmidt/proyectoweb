@@ -151,6 +151,7 @@ def crear_alumno(request):
 
 @login_required
 def buscar_conductor(request):
+
     conductores = Conductor.objects.filter(disponible=True)
     if request.method == 'POST':
         conductor_id = request.POST.get('conductor_id')
@@ -268,7 +269,8 @@ def gestion_alumnos(request):
 
 def subir_documentos(request):
     conductor = request.user.conductor  # Obtener el conductor autenticado
-    if conductor.documentospersonales_set.exists():  # Verificar si ya subió documentos
+    # Usar el related_name 'documentos_personales' en lugar de 'documentospersonales_set'
+    if conductor.documentos_personales.exists():  # Verificar si ya subió documentos
         return redirect('subir_datos_vehiculo')  # Si ya subió documentos, redirigir a subir datos del vehículo
 
     if request.method == 'POST':
@@ -287,6 +289,8 @@ def subir_datos_vehiculo(request):
     conductor = request.user.conductor  # Obtener el conductor autenticado
     if hasattr(conductor, 'vehiculo'):  # Verificar si ya ha registrado el vehículo
         return redirect('home_conductor')  # Si ya se registró el vehículo, redirigir al home
+
+
 
     if request.method == 'POST':
         form = DatosVehiculoForm(request.POST, request.FILES)
