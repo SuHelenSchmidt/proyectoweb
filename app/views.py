@@ -27,6 +27,7 @@ from .models import (
     DocumentosPersonales,
     DocumentosVehiculo,
     Mensaje,
+    Notificacion,
     Solicitud,
     SolicitudVinculacion,
     Conductor,
@@ -128,9 +129,17 @@ def home_conductor(request):
     
     conductor = Conductor.objects.get(user=request.user)
     apoderados = conductor.apoderados.all()
+
+
+      
+    # Obtener notificaciones no leídas para el usuario actual
+    notificaciones = Notificacion.objects.filter(destinatario=request.user, leida=False)
+
     return render(request, 'conductor/home_conductor.html', {
         'conductor': conductor,
         'apoderados': apoderados,
+        'notificaciones': notificaciones,
+
     })
 
 @login_required
@@ -170,6 +179,11 @@ def crear_solicitud_vinculacion(request, conductor_id):
             estado='Pendiente'
         )
         solicitud.save()  
+          # Crear la notificación para el conductor
+        Notificacion.objects.create(
+            destinatario=conductor.user,
+            mensaje=f"{request.user.nombre} ha enviado una solicitud de vinculación."
+        )
 
         alumnos_ids = request.POST.getlist('alumnos_ids')
         for alumno_id in alumnos_ids:
@@ -387,6 +401,14 @@ def ver_mensajes(request):
     # Recupera conversaciones donde el usuario actual es parte
     conversaciones = Conversacion.objects.filter(participante_1=request.user) | Conversacion.objects.filter(participante_2=request.user)
 
+
+
+    # Asegúrate de que se están recuperando correctamente los mensajes
+    for conversacion in conversaciones:
+        mensajes = Mensaje.objects.filter(conversacion=conversacion)
+        for mensaje in mensajes:
+            print(f'Conversación ID: {conversacion.id}, Mensaje: {mensaje.contenido}, Remitente: {mensaje.remitente}')
+
     return render(request, 'mensaje/ver_mensajes.html', {
         'conversaciones': conversaciones,
     })
@@ -443,6 +465,13 @@ def enviar_mensaje(request):
             participante_2=destinatario
         )
 
+           # Asegúrate de que se crea una conversación de forma bidireccional
+        if created:
+            Conversacion.objects.get_or_create(
+                participante_1=destinatario,
+                participante_2=request.user
+            )
+
         # Envía el mensaje
         Mensaje.objects.create(
             remitente=request.user,
@@ -482,3 +511,12 @@ def datos_personales(request):
         'apoderado': apoderado
     }
     return render(request, 'apoderado/datos_personales.html', context)
+
+# views.py
+@login_required
+def marcar_notificaciones_leidas(request):
+    Notificacion.objects.filter(usuario=request.user, leido=False).update(leido=True)
+    return redirect('vinculaciones')  # Redirige a la vista de vinculaciones
+
+
+

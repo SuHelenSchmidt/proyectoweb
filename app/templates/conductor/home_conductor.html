@@ -23,27 +23,29 @@
             overflow: hidden;
             position: relative;
         }
-        /* Establecer el GIF de fondo */
+        /* GIF de fondo */
         .background-gif {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 70%; /* Ajusta el ancho del GIF según sea necesario */
-            max-width: 400px; /* Establece un ancho máximo para el GIF */
-            height: auto; /* Mantiene la proporción del GIF */
+            width: 70%;
+            max-width: 400px;
+            height: auto;
             z-index: -1;
         }
-        /* Estilo del texto de bienvenida */
+        /* Texto de bienvenida */
         .welcome-text {
             position: absolute;
-            top: 10%;
+            top: 5%;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 24px; /* Ajusta el tamaño del texto */
-            z-index: 1; /* Asegura que esté por encima del GIF */
+            font-size: 28px;
+            font-weight: 500;
+            color: #ff4b2b;
+            z-index: 1;
         }
-        /* Botones fijos en la parte inferior */
+        /* Botones fijos abajo */
         .fixed-bottom-buttons {
             position: absolute;
             bottom: 20px;
@@ -51,118 +53,142 @@
             transform: translateX(-50%);
             display: flex;
             gap: 20px;
-            z-index: 1; /* Asegura que esté por encima del GIF */
+            z-index: 1;
         }
-        /* Posicionamiento de los botones de gestión y configuración */
+        /* Botones de gestión */
         .top-buttons {
             position: absolute;
-            top: 10px; /* Distancia desde la parte superior */
-            right: 10px; /* Distancia desde la derecha */
+            top: 10px;
+            right: 10px;
             display: flex;
-            gap: 10px;
-            z-index: 1; /* Asegura que esté por encima del GIF */
+            gap: 15px;
+            z-index: 1;
         }
-        /* Estilo para el botón redondo */
+        /* Botón redondo */
         .round-button {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 120px; /* Ancho del botón */
-            height: 120px; /* Alto del botón */
-            border-radius: 50%; /* Hacerlo redondo */
-            background: linear-gradient(145deg, #ff416c, #ff4b2b); /* Degradado de color */
-            border: none; /* Sin borde */
-            color: white; /* Color del texto */
-            font-size: 16px; /* Tamaño del texto */
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #ff416c, #ff4b2b);
+            border: none;
+            color: white;
+            font-size: 16px;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra del botón */
-            cursor: pointer; /* Cambia el cursor al pasar por encima */
-            transition: transform 0.2s, box-shadow 0.2s; /* Efectos de transición */
-            z-index: 1; /* Asegura que esté por encima del GIF */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            z-index: 1;
         }
         .round-button:hover {
-            transform: scale(1.05); /* Efecto al pasar el ratón */
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* Sombra al pasar el ratón */
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
-        /* Estilo para los botones de la parte superior */
+        /* Botón superior */
         .top-button {
-            font-size: 24px; /* Tamaño del texto del botón */
-            padding: 15px 20px; /* Espaciado interno del botón */
+            font-size: 24px;
+            padding: 15px 20px;
         }
-        /* Aumentar tamaño de los elementos del menú desplegable */
         .dropdown-item {
-            font-size: 18px; /* Tamaño del texto */
-            padding: 10px 20px; /* Espaciado interno */
+            font-size: 18px;
+            padding: 10px 20px;
         }
+
+        .boton-redondo {
+            background-color: red; /* Color de fondo inicial (rojo) */
+            color: white; /* Color del texto */
+            border: none; /* Sin borde */
+            border-radius: 50%; /* Bordes redondeados */
+            width: 100px; /* Ancho inicial del botón */
+            height: 100px; /* Alto inicial del botón */
+            font-size: 20px; /* Tamaño del texto */
+            cursor: pointer; /* Cursor al pasar sobre el botón */
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Transición suave para el cambio de color y expansión */
+        }
+
+        .boton-redondo:hover {
+            background-color: blue; /* Color de fondo al pasar el mouse (azul) */
+            transform: scale(1.1); /* Aumenta el tamaño del botón al 110% */
+        }
+
     </style>
 </head>
 <body>
 
     <div class="background-gif">
-        <img src="{% static 'gifs/distancia.gif' %}" alt="Mapa de Viaje" style="width: 100%; height: auto;">
+        <button id="iniciar-viaje" class="boton-redondo" onclick="iniciarViaje()">Iniciar Viaje</button>
     </div>
 
-    <div class="welcome-text">Bienvenido, Conductor<td>{{ conductor.nombre }}</td>
-        <td>{{ conductor.apellido }} {{ conductor.rut }}</td></div>
+    <div class="welcome-text">Hola <td>{{ conductor.nombre }}</td>
+       </div>
+    
 
     <!-- Botones de gestión y configuración -->
     <div class="top-buttons">
-        <!-- Botón de estudiante -->
-       
-
-        <!-- Botón para "Gestionar Solicitudes" -->
-        <div class="friends-button">
-            <button type="button" class="btn btn-light top-button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-people-fill"></i>
-            </button>
-            <ul class="dropdown-menu">
-             
-            </ul>
+        <!-- Botón de vinculación con icono relacionado -->
+        <div class="vinculaciones-button">
+            <a href="{% url 'vinculaciones' %}" class="btn btn-light top-button">
+                <i class="bi bi-person-lines-fill"></i> <!-- Icono relacionado a solicitudes -->
+            </a>
         </div>
 
-        <!-- Botón de engranaje en la parte superior derecha -->
-        <div class="gear-button">
-            <button type="button" class="btn btn-light top-button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-gear-fill"></i>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="{% url 'vinculaciones' %}"> vinculaciones</a></li>
-                
-                <!-- Botón para Procesar Formulario -->
-                <li>
-                        {% csrf_token %}
-                        <button type="submit" class="dropdown-item">Procesar formulario</button>
-                        <a href="{% url 'gestionar_documentos' %}">Gestionar Documentos Personales y Vehículo</a>
+<!-- Contenedor de las opciones de navegación -->
+<div class="d-flex flex-column align-items-stretch" style="position: fixed; right: 0; top: 100px; height: 100vh; width: 60px;">
+    <!-- Opción: Documentos Personales y Vehículo -->
+    <a href="{% url 'gestionar_documentos' %}" class="btn btn-warning mb-2" style="height: 80px; font-size: 18px; display: flex; align-items: center; justify-content: center;" title="Documentos Personales y Vehículo">
+        <i class="bi bi-file-earmark-text" style="font-size: 30px;"></i>
+    </a>
 
-                    </form>
-                </li>
+    <!-- Opción: Ver Mensajes -->
+    <a href="{% url 'ver_mensajes' %}" class="btn btn-warning mb-2" style="height: 80px; font-size: 18px; display: flex; align-items: center; justify-content: center;" title="Ver Mensajes">
+        <i class="bi bi-envelope-fill" style="font-size: 30px;"></i>
+    </a>
 
-<!-- home_apoderado.html y home_conductor.html -->
-<a href="{% url 'ver_mensajes' %}">Ver Mensajes</a>
-<a href="{% url 'enviar_mensaje' %}">Enviar Mensaje</a>
+    <!-- Opción: Enviar Mensaje -->
+    <a href="{% url 'enviar_mensaje' %}" class="btn btn-warning mb-2" style="height: 80px; font-size: 18px; display: flex; align-items: center; justify-content: center;" title="Enviar Mensaje">
+        <i class="bi bi-send-fill" style="font-size: 30px;"></i>
+    </a>
 
-                <!-- Botón Cerrar Sesión -->
-                <li>
-                    <form action="{% url 'logout' %}" method="post" style="display: inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="dropdown-item">Cerrar sesión</button>
-                    </form>
-                </li>
-            </ul>
-        </div>
+    <!-- Opción: Vinculaciones -->
+    <div class="vinculaciones-button mb-2">
+        <a href="{% url 'vinculaciones' %}" class="btn btn-warning" style="height: 80px; font-size: 18px; display: flex; align-items: center; justify-content: center;" title="Vinculaciones">
+            <i class="bi bi-person-lines-fill" style="font-size: 30px;"></i>
+        </a>
     </div>
 
-    <!-- Botón redondo para iniciar viaje -->
-  
-    
-    <!-- Botones inferiores para "Crear Ruta" y "Ver Ruta" -->
+    <!-- Opción: Cerrar Sesión -->
+    <form action="{% url 'logout' %}" method="post" class="mb-2">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-warning" style="height: 80px; font-size: 18px; display: flex; align-items: center; justify-content: center;" title="Cerrar sesión">
+            <i class="bi bi-power" style="font-size: 30px;"></i>
+        </button>
+    </form>
+</div>
+
+
+    </div>
+
+    <!-- Botones inferiores -->
     <div class="fixed-bottom-buttons">
+        <!-- Agregar botones de acción como Crear Ruta o Ver Ruta -->
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <button id="iniciar-viaje" class="boton-redondo" onclick="iniciarViaje()">Iniciar Viaje</button>
+    
+    <script>
+        function iniciarViaje() {
+            // Lógica para iniciar el viaje
+            alert('Viaje iniciado');
+        }
+    </script>
+
 </body>
 </html>

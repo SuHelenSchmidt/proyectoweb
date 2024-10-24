@@ -202,3 +202,11 @@ class Mensaje(models.Model):
     
 
 
+class Notificacion(models.Model):
+    destinatario = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='notificaciones')
+    mensaje = models.CharField(max_length=255)
+    leida = models.BooleanField(default=False)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.destinatario}: {self.mensaje} - {'Leída' if self.leida else 'No leída'}"
