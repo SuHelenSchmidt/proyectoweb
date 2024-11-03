@@ -1,168 +1,209 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio del Conductor</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            height: 100vh;
             margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             color: rgb(10, 9, 9);
             text-align: center;
-            overflow: hidden;
-            position: relative;
-        }
-        /* Establecer el GIF de fondo */
-        .background-gif {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 70%; /* Ajusta el ancho del GIF según sea necesario */
-            max-width: 400px; /* Establece un ancho máximo para el GIF */
-            height: auto; /* Mantiene la proporción del GIF */
-            z-index: -1;
-        }
-        /* Estilo del texto de bienvenida */
-        .welcome-text {
-            position: absolute;
-            top: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 24px; /* Ajusta el tamaño del texto */
-            z-index: 1; /* Asegura que esté por encima del GIF */
-        }
-        /* Botones fijos en la parte inferior */
-        .fixed-bottom-buttons {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
             display: flex;
-            gap: 20px;
-            z-index: 1; /* Asegura que esté por encima del GIF */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
-        /* Posicionamiento de los botones de gestión y configuración */
+        .content-wrapper {
+            width: 100%;
+            max-width: 1200px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #map-container {
+            width: 80vw;
+            max-width: 600px;
+            height: 50vh;
+            max-height: 400px;
+            overflow: hidden;
+            border-radius: 15px;
+            background-color: #e0f7fa;
+            border: 3px solid #00796b;
+            box-sizing: border-box;
+        }
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+        .welcome-text {
+            font-size: 24px;
+            margin-top: 20px;
+        }
         .top-buttons {
             position: absolute;
-            top: 10px; /* Distancia desde la parte superior */
-            right: 10px; /* Distancia desde la derecha */
+            top: 10px;
+            right: 10px;
             display: flex;
             gap: 10px;
-            z-index: 1; /* Asegura que esté por encima del GIF */
-        }
-        /* Estilo para el botón redondo */
-        .round-button {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120px; /* Ancho del botón */
-            height: 120px; /* Alto del botón */
-            border-radius: 50%; /* Hacerlo redondo */
-            background: linear-gradient(145deg, #ff416c, #ff4b2b); /* Degradado de color */
-            border: none; /* Sin borde */
-            color: white; /* Color del texto */
-            font-size: 16px; /* Tamaño del texto */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra del botón */
-            cursor: pointer; /* Cambia el cursor al pasar por encima */
-            transition: transform 0.2s, box-shadow 0.2s; /* Efectos de transición */
-            z-index: 1; /* Asegura que esté por encima del GIF */
-        }
-        .round-button:hover {
-            transform: scale(1.05); /* Efecto al pasar el ratón */
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* Sombra al pasar el ratón */
-        }
-        /* Estilo para los botones de la parte superior */
-        .top-button {
-            font-size: 24px; /* Tamaño del texto del botón */
-            padding: 15px 20px; /* Espaciado interno del botón */
-        }
-        /* Aumentar tamaño de los elementos del menú desplegable */
-        .dropdown-item {
-            font-size: 18px; /* Tamaño del texto */
-            padding: 10px 20px; /* Espaciado interno */
         }
     </style>
 </head>
 <body>
 
-    <div class="background-gif">
-        <img src="{% static 'gifs/distancia.gif' %}" alt="Mapa de Viaje" style="width: 100%; height: auto;">
-    </div>
-
-    <div class="welcome-text">Bienvenido, Conductor<td>{{ conductor.nombre }}</td>
-        <td>{{ conductor.apellido }} {{ conductor.rut }}</td></div>
-
-    <!-- Botones de gestión y configuración -->
-    <div class="top-buttons">
-        <!-- Botón de estudiante -->
-       
-
-        <!-- Botón para "Gestionar Solicitudes" -->
-        <div class="friends-button">
-            <button type="button" class="btn btn-light top-button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-people-fill"></i>
-            </button>
-            <ul class="dropdown-menu">
-             
-            </ul>
+    <div class="content-wrapper">
+        <div class="welcome-text">
+            Bienvenido, Conductor <span>{{ conductor.nombre }}</span> <span>{{ conductor.apellido }} {{ conductor.rut }}</span>
         </div>
-
-        <!-- Botón de engranaje en la parte superior derecha -->
-        <div class="gear-button">
-            <button type="button" class="btn btn-light top-button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-gear-fill"></i>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="{% url 'vinculaciones' %}"> vinculaciones</a></li>
-                
-                <!-- Botón para Procesar Formulario -->
-                <li>
-                        {% csrf_token %}
-                        <button type="submit" class="dropdown-item">Procesar formulario</button>
-                        <a href="{% url 'gestionar_documentos' %}">Gestionar Documentos Personales y Vehículo</a>
-
-                    </form>
-                </li>
-
-<!-- home_apoderado.html y home_conductor.html -->
-<a href="{% url 'ver_mensajes' %}">Ver Mensajes</a>
-<a href="{% url 'enviar_mensaje' %}">Enviar Mensaje</a>
-
-                <!-- Botón Cerrar Sesión -->
-                <li>
-                    <form action="{% url 'logout' %}" method="post" style="display: inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="dropdown-item">Cerrar sesión</button>
-                    </form>
-                </li>
-            </ul>
+        <div class="top-buttons">
+            <div class="friends-button">
+                <button type="button" class="btn btn-light" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-people-fill"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'vinculaciones' %}">Vinculaciones</a></li>
+                    <li><a class="dropdown-item" href="{% url 'gestionar_documentos' %}">Gestionar Documentos Personales y Vehículo</a></li>
+                    <li><a class="dropdown-item" href="{% url 'ver_mensajes' %}">Ver Mensajes</a></li>
+                    <li><a class="dropdown-item" href="{% url 'enviar_mensaje' %}">Enviar Mensaje</a></li>
+                </ul>
+            </div>
+            <div class="gear-button">
+                <button type="button" class="btn btn-light" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-gear-fill"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="{% url 'vinculaciones' %}">Vinculaciones</a></li>
+                    <li>
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="dropdown-item">Cerrar sesión</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 
-    <!-- Botón redondo para iniciar viaje -->
-  
-    
-    <!-- Botones inferiores para "Crear Ruta" y "Ver Ruta" -->
-    <div class="fixed-bottom-buttons">
+    <div id="map-container">
+        <div id="map"></div>
     </div>
 
-    <!-- Bootstrap JS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("DOM completamente cargado y procesado");
+
+            var map = L.map('map', {
+                center: [-36.820126522009964, -73.04461124985777],
+                zoom: 14,
+                minZoom: 3,
+                maxZoom: 18,
+                zoomControl: true,
+                layers: [
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '© OpenStreetMap',
+                        maxZoom: 18
+                    })
+                ]
+            });
+
+            var customIcon = L.icon({
+                iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+                shadowSize: [41, 41]
+            });
+
+            var userMarker;
+            var precisionCircle;
+            var lastKnownPosition = null;
+            var fallbackPosition = [-36.820126522009964, -73.04461124985777];
+            var precisionThreshold = 100;
+            var geoOptions = {
+                enableHighAccuracy: true,
+                timeout: 5000, // Reducimos el tiempo de espera a 5 segundos
+                maximumAge: 0
+            };
+
+            var watchId;
+            var attemptCount = 0;
+            var maxAttempts = 6; // Permitimos hasta 6 intentos (aprox. 30 segundos)
+
+            function updatePosition(position) {
+                var userLat = position.coords.latitude;
+                var userLon = position.coords.longitude;
+                var accuracy = position.coords.accuracy;
+                var timestamp = new Date(position.timestamp);
+
+                console.log("Posición recibida:");
+                console.log(" - Latitud:", userLat);
+                console.log(" - Longitud:", userLon);
+                console.log(" - Precisión:", accuracy, "metros");
+                console.log(" - Timestamp:", timestamp.toLocaleString());
+
+                if (accuracy <= precisionThreshold) {
+                    attemptCount = 0; // Reiniciamos el contador de intentos
+
+                    if (!userMarker) {
+                        userMarker = L.marker([userLat, userLon], { icon: customIcon }).addTo(map);
+                        userMarker.bindPopup("<b>¡Estás aquí!</b>").openPopup();
+                    } else {
+                        userMarker.setLatLng([userLat, userLon]);
+                    }
+
+                    if (!precisionCircle) {
+                        precisionCircle = L.circle([userLat, userLon], { radius: accuracy, color: 'blue', fillOpacity: 0.1 }).addTo(map);
+                    } else {
+                        precisionCircle.setLatLng([userLat, userLon]);
+                        precisionCircle.setRadius(accuracy);
+                    }
+
+                    map.setView([userLat, userLon], 15);
+                    console.log("Posición precisa obtenida");
+                } else {
+                    console.warn("Posición descartada por baja precisión:", accuracy, "metros");
+                }
+            }
+
+            function geoError(error) {
+                console.error("Error al obtener la ubicación. Código:", error.code);
+                console.error("Mensaje de error:", error.message);
+            }
+
+            function retryGetCurrentPosition() {
+                if (attemptCount < maxAttempts) {
+                    attemptCount++;
+                    console.log(`Intento ${attemptCount} de obtener una posición precisa con getCurrentPosition`);
+                    navigator.geolocation.getCurrentPosition(updatePosition, geoError, geoOptions);
+                } else {
+                    console.warn("No se obtuvo una ubicación precisa tras varios intentos. Iniciando watchPosition como respaldo.");
+                    startWatchingPosition();
+                }
+            }
+
+            function startWatchingPosition() {
+                watchId = navigator.geolocation.watchPosition(updatePosition, geoError, geoOptions);
+                console.log("Iniciando observación de la posición con watchPosition, ID:", watchId);
+            }
+
+            // Iniciar con getCurrentPosition con reintentos hasta alcanzar 30 segundos (o una ubicación precisa)
+            retryGetCurrentPosition();
+            var retryInterval = setInterval(() => {
+                if (attemptCount < maxAttempts) {
+                    retryGetCurrentPosition();
+                } else {
+                    clearInterval(retryInterval); // Detenemos el intervalo después de los intentos
+                }
+            }, 5000); // Intento cada 5 segundos
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
